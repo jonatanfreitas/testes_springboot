@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.financeiroteste.model.Lancamento;
 import com.financeiroteste.model.Lancamento_;
+import com.financeiroteste.model.Pessoa_;
+import com.financeiroteste.model.categoria_;
 import com.financeiroteste.repository.filter.LancamentoFilter;
 import com.financeiroteste.repository.projection.ResumoLancamento;
 
@@ -68,12 +70,15 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		CriteriaQuery<ResumoLancamento> criteria = builder.createQuery(ResumoLancamento.class);
 		Root<Lancamento> root = criteria.from(Lancamento.class);
 		
-		criteria.select(builder.construct(ResumoLancamento.class
-				, root.get(Lancamento_.codigo), root.get(Lancamento_.descricao)
-				, root.get(Lancamento_.dataVencimento), root.get(Lancamento_.dataPagamento)
-				, root.get(Lancamento_.valor), root.get(Lancamento_.tipo)
-				, root.get(Lancamento_.categoria).get(Categoria_.nome)
-				, root.get(Lancamento_.pessoa).get(Pessoa_.nome)));
+		criteria.select(builder.construct(ResumoLancamento.class, 
+				root.get(Lancamento_.codigo), 
+				root.get(Lancamento_.descricao), 
+				root.get(Lancamento_.dataVencimento), 
+				root.get(Lancamento_.dataPagamento), 
+				root.get(Lancamento_.valor), 
+				root.get(Lancamento_.tipo), 
+				root.get(Lancamento_.categoria).get(categoria_.nome), //root.get("categoria").get("nome")
+				root.get(Lancamento_.pessoa).get(Pessoa_.nome)));//root.get("pessoa").get("nome")));
 		
 		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
 		criteria.where(predicates);
@@ -83,7 +88,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		
 		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
 	}	
-	private void adicionarRestricoesDePaginacao(TypedQuery<Lancamento> query, Pageable pageable) {
+	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
 		int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;

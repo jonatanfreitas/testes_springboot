@@ -95,7 +95,13 @@
     		<artifactId>spring-security-jwt</artifactId>
     		<version>1.1.1.RELEASE</version>
 		</dependency> 
-    	<!-- Necessário para o funcionamento do Opaque Token  --> 
+    	
+    	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-configuration-processor</artifactId>
+    		<optional>true</optional>
+		</dependency>
+		<!-- Necessário para o funcionamento do Opaque Token  -->
 		<dependency>
 		    <groupId>com.nimbusds</groupId>
 		    <artifactId>oauth2-oidc-sdk</artifactId>		
