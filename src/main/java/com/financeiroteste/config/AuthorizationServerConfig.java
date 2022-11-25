@@ -42,7 +42,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret("$2a$10$G1j5Rf8aEEiGc/AET9BA..xRR.qCpOUzBZoJd8ygbGy6tb3jsMT9G") //@ngul@r0    $2a$10$UAc049fUm6Bxy8X/.mpn8.PfD2ncb4ZgvmEa5Hb.JOGVJNX1ampgG
 				.scopes("read", "write")
 				.authorizedGrantTypes("password", "refresh_token")
-				.accessTokenValiditySeconds(120)
+				.accessTokenValiditySeconds(15)
 				.refreshTokenValiditySeconds(3600 * 24);
 	}
 
@@ -53,7 +53,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints
 		.authenticationManager(authenticationManager)
 		.userDetailsService(userDetailsService)
-		.tokenEnhancer(tokenEnhancerChain)
+		//.tokenEnhancer(tokenEnhancerChain)
 		.accessTokenConverter(accessTokenConverter())
 		.tokenStore(tokenStore())
 		.reuseRefreshTokens(false);
