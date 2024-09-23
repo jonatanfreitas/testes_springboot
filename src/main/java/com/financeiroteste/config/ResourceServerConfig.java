@@ -25,6 +25,10 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
+import com.financeiroteste.security.AppUserDetailsService;
+
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Profile("oauth-security")
 @Configuration
 @EnableWebSecurity
@@ -33,7 +37,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        
+    	log.info("Log Resouce Server Config");
         http.authorizeRequests()
                 .antMatchers("/categorias").permitAll()
                 .anyRequest().authenticated()
@@ -64,6 +68,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter{
     
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
 		JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+		log.info("Log Resouce Server Config JTW");		
 		jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
 			List<String> authorities = jwt.getClaimAsStringList("authorities");
 
@@ -79,8 +84,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter{
 					.collect(Collectors.toList()));
 
 			return grantedAuthorities;
-		});
-
+		});		
 		return jwtAuthenticationConverter;
 	}
 }

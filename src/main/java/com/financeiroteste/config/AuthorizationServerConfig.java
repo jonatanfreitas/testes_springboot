@@ -21,6 +21,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import com.financeiroteste.config.token.CustomTokenEnhancer;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @SuppressWarnings("deprecation")
 @Profile("oauth-security")
 @Configuration
@@ -37,6 +39,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		log.info("Log Authorization Server Config Clients");	
 		clients.inMemory()
 				.withClient("angular")
 				.secret("$2a$10$G1j5Rf8aEEiGc/AET9BA..xRR.qCpOUzBZoJd8ygbGy6tb3jsMT9G") //@ngul@r0    $2a$10$UAc049fUm6Bxy8X/.mpn8.PfD2ncb4ZgvmEa5Hb.JOGVJNX1ampgG
@@ -48,13 +51,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		log.info("Log Authorization Server Config EndPoint");	
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
 		endpoints
 		.authenticationManager(authenticationManager)
 		.userDetailsService(userDetailsService)
-		//.tokenEnhancer(tokenEnhancerChain)
-		.accessTokenConverter(accessTokenConverter())
+		//.passwordEncoder(passwordEncoder())
+		.tokenEnhancer(tokenEnhancerChain)
+		//.accessTokenConverter(accessTokenConverter())
 		.tokenStore(tokenStore())
 		.reuseRefreshTokens(false);
 	}
@@ -62,9 +67,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-
 		accessTokenConverter.setSigningKey("3032885ba9cd6621bcc4e7d6b6c35c2b");
-
 		return accessTokenConverter;
 	}
 

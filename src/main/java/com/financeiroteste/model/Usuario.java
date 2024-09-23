@@ -3,6 +3,7 @@ package com.financeiroteste.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -16,10 +17,12 @@ import javax.persistence.Table;
 public class Usuario {
 
 	@Id
+	@Column(name="CODIGO")
 	private Long codigo;
 
 	private String nome;
 	private String email;
+	@Column(name="SENHA")
 	private String senha;
 
 	@ManyToMany(fetch = FetchType.EAGER)

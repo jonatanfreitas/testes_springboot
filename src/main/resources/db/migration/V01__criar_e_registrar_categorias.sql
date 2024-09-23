@@ -1,8 +1,8 @@
 CREATE TABLE categoria
 (
-	codigo bigint(20) primary key auto_increment,
+	codigo numeric(18) IDENTITY(1,1) primary key,
 	nome varchar(50) not null
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 
 insert into categoria (nome) values ('Lazer');

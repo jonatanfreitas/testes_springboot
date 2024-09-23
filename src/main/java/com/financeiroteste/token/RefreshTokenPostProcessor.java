@@ -1,6 +1,6 @@
 package com.financeiroteste.token;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.Cookie; 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.financeiroteste.config.property.AlgamoneyApiProperty;
+
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Profile("oauth-security")
 @SuppressWarnings("deprecation")
 @ControllerAdvice
@@ -45,7 +48,7 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 		String refreshToken = body.getRefreshToken().getValue();
 		adicionarRefreshTokenNoCookie(refreshToken, req, resp);
 		removerRefreshTokenDoBody(token);
-		
+		log.info("Log RefreshTokenPostProcessor Add Refresh em Coockie");
 		return body;
 	}
 
